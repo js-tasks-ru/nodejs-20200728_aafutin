@@ -9,7 +9,7 @@ class LimitSizeStream extends stream.Transform {
   }
 
   _transform(chunk, encoding, callback) {
-    this.chunks++;
+    this.chunks += chunk.length;
     if (this.chunks > this.limit) {
       callback(new LimitExceededError);
     } else {

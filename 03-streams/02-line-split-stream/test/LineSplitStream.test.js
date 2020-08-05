@@ -20,7 +20,7 @@ describe('streams/line-split-stream', () => {
       });
 
       lines.write(`a${os.EOL}b`);
-      lines.end();
+    lines.end();
     });
 
     it('стрим корректно передает данные даже если чанк не завершается переводом строки', (done) => {

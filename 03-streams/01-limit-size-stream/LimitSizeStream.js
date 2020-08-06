@@ -5,12 +5,12 @@ class LimitSizeStream extends stream.Transform {
   constructor(options) {
     super({encoding: options.encoding});
     this.limit = options.limit;
-    this.chunks = 0;
+    this.bytes_passed = 0;
   }
 
   _transform(chunk, encoding, callback) {
-    this.chunks += chunk.length;
-    if (this.chunks > this.limit) {
+    this.bytes_passed += chunk.length;
+    if (this.bytes_passed > this.limit) {
       callback(new LimitExceededError);
     } else {
       callback(null, chunk);

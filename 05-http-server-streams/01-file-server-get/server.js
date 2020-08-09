@@ -18,8 +18,12 @@ server.on('request', (req, res) => {
       }
       const fileReadStream = fs.createReadStream(filepath);
       fileReadStream.pipe(res);
-      fileReadStream.on('error', () => {
-        res.statusCode = 404;
+      fileReadStream.on('error', (err) => {
+        if (err.code ) {
+          res.statusCode = 404;
+        } else {
+          res.statusCode = 500;
+        }
         res.end();
       });
       break;

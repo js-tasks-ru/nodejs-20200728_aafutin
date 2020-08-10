@@ -19,7 +19,7 @@ server.on('request', (req, res) => {
       const fileReadStream = fs.createReadStream(filepath);
       fileReadStream.pipe(res);
       fileReadStream.on('error', (err) => {
-        if (err && err.code === 'ENOENT') {
+        if (err.code === 'ENOENT') {
           res.statusCode = 404;
         } else {
           res.statusCode = 500;

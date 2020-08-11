@@ -3,7 +3,6 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs-extra');
 const server = new http.Server();
-const {pipeline} = require('stream');
 const LimitSizeStream = require('./LimitSizeStream');
 
 server.on('request', async (req, res) => {

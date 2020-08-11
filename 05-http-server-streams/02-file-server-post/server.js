@@ -23,25 +23,20 @@ server.on('request', async (req, res) => {
 
       const limitStream = new LimitSizeStream({limit: 1048576});
       const newFileStream = fs.createWriteStream(filepath);
-      const errorHandler = () => {
-        limitStream.destroy();
-        newFileStream.destroy();
-        fs.remove(filepath);
-      };
 
       req.pipe(limitStream).pipe(newFileStream);
 
       limitStream.on('error', (err) => {
-        errorHandler();
         res.statusCode = err.code === 'LIMIT_EXCEEDED' ? 413 : 500;
         req.resume();
       });
 
       req.on('close', () => {
         if (!newFileStream._writableState.ended) {
-          res.statusCode = 500;
-          errorHandler();
+          fs.remove(filepath);
         }
+        limitStream.destroy();
+        newFileStream.destroy();
       });
 
       req.on('end', () => {

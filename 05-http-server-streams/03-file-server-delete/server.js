@@ -15,13 +15,12 @@ server.on('request', async (req, res) => {
       if (pathname.indexOf('/') !== -1) {
         res.statusCode = 400;
         return res.end();
-      } else if (!await fs.exists(filepath)) {
-        res.statusCode = 404;
-        return res.end();
       }
-      await fs.remove(filepath).catch((err) => {
-        res.statusCode = 500;
+
+      await fs.unlink(filepath).catch((err) => {
+        res.statusCode = err.code === 'ENOENT' ? 404 : 500;
       });
+
       res.end();
 
       break;

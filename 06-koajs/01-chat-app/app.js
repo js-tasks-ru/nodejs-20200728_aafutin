@@ -19,19 +19,18 @@ router.get('/subscribe', async (ctx, next) => {
   });
 
   return await new Promise((resolve) => {
-    const waitMessage = setInterval(() => {
-      if (subscribers[id].message) {
-        ctx.body = subscribers[id].message;
-        clearInterval(waitMessage);
+    subscribers[id].onmessage = (message) => {
+      if (message) {
+        ctx.body = message;
         resolve();
       }
-    }, 10);
+    };
   });
 });
 
 router.post('/publish', async (ctx, next) => {
   for (const id in subscribers) {
-    subscribers[id].message = ctx.request.body.message;
+    subscribers[id].onmessage(ctx.request.body.message);
   }
   ctx.body = '';
 });

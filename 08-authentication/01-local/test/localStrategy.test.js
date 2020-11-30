@@ -2,7 +2,7 @@ const connection = require('../libs/connection');
 const localStrategy = require('../libs/strategies/local');
 const expect = require('chai').expect;
 const User = require('../models/User');
-const users = require('../../../__data/users');
+const users = require('../../../data/users');
 
 describe('authentication/local', () => {
   describe('passport local strategy', function() {

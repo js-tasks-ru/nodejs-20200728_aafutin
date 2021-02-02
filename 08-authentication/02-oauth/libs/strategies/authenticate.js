@@ -14,3 +14,4 @@ module.exports = async (strategy, email, displayName, done) => {
     done(err);
   }
 };
+
